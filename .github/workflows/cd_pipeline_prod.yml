@@ -1,0 +1,32 @@
+name: Build and Deploy Pipeline
+
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [main]
+
+  # Allows you to run this workflow manually from the Actions tab on Repo homepage
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  deploy:
+    runs-on: ubuntu-latest   
+    steps:
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@v0.1.4
+        # Don't forget to add environment vars as secrets in repository settings on GitHub
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          # SSH port
+          port: 22
+          debug: true
+          script: | 
+            cd ~/Front-end
+            echo "Checkout recent changes"
+            git checkout deployment_pipeline 
+            git pull
+            cd docker
+            sh ~/Front-end/docker/deployment.sh prod
