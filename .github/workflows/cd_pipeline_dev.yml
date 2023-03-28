@@ -26,7 +26,8 @@ jobs:
           script: | 
             cd ~/Front-end
             echo "Checkout recent changes"
+            git pull
             git checkout deployment_pipeline 
             git pull
             cd docker
-            sh ~/Backend-Final/docker/deployment.sh dev
+            sh ~/Front-end/docker/deployment.sh dev
