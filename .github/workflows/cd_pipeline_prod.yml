@@ -25,8 +25,8 @@ jobs:
           debug: true
           script: | 
             cd ~/Front-end
-            echo "Checkout recent changes"
-            git checkout deployment_pipeline 
+            echo "Checkout recent changes" 
             git pull
+            git checkout recommendation
             cd docker
             sh ~/Front-end/docker/deployment.sh prod
